@@ -2,33 +2,86 @@
     position: fixed;
     top: 20px;
     right: 20px;
-    width: 320px;
-    max-width: 90vw;
+    width: 16px;
+    max-height: 16px;
+    min-height: 16px;
     box-sizing: border-box;
-    background: #333;
-    color: #fff;
+    background: transparent;
+    color: transparent;
     border-radius: 8px;
     font-family: sans-serif;
     font-size: 14px;
     z-index: 2147483647;
     /* Ensure it is on top of everything */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     overflow: hidden;
+    cursor: pointer;
+}
+
+#link-locator-widget::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    background: #ff5722;
+    border-radius: 50%;
+    z-index: 10;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#link-locator-widget.expanded {
+    width: 320px;
+    max-height: 400px;
+    background: #333;
+    color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: default;
+}
+
+#link-locator-widget.expanded::before {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.5);
 }
 
 #link-locator-header {
     padding: 10px 15px;
-    cursor: pointer;
     background: #007bff;
     font-weight: bold;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    color: #fff;
+    cursor: pointer;
+}
+
+#link-locator-widget.expanded #link-locator-header {
+    opacity: 1;
 }
 
 #link-locator-header:hover {
     background: #0056b3;
+}
+
+#link-locator-close {
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.8;
+    margin-left: auto;
+    padding-left: 10px;
+}
+
+#link-locator-close:hover {
+    opacity: 1;
+    color: #ffcccc;
 }
 
 #link-locator-list {
@@ -40,10 +93,12 @@
     margin: 0;
     padding: 0;
     list-style: none;
+    opacity: 0;
 }
 
 #link-locator-widget.expanded #link-locator-list {
     max-height: 300px;
+    opacity: 1;
 }
 
 .link-locator-item {

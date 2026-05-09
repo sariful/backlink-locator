@@ -114,8 +114,7 @@ function scanLinks() {
 function updateWidget() {
     let widget = document.getElementById('link-locator-widget');
     let isExpanded = false;
-
-    // If widget already exists, remember if it was open before we destroy it
+    // If widget already exists, destroy it
     if (widget) {
         isExpanded = widget.classList.contains('expanded');
         widget.remove();
@@ -129,12 +128,17 @@ function updateWidget() {
 
     const header = document.createElement('div');
     header.id = 'link-locator-header';
-    header.innerHTML = `<span>${foundLinks.length} target link(s) found</span> <span id="locator-toggle" style="margin-left: 10px;">${isExpanded ? '▲' : '▼'}</span>`;
+    header.innerHTML = `<span>${foundLinks.length} target link(s) found</span> <span id="link-locator-close" title="Close">&times;</span>`;
 
-    header.addEventListener('click', () => {
-        widget.classList.toggle('expanded');
-        const toggle = document.getElementById('locator-toggle');
-        toggle.innerText = widget.classList.contains('expanded') ? '▲' : '▼';
+    // Toggle widget expansion on click
+    widget.addEventListener('click', (e) => {
+        // If not expanded, any click expands it.
+        // If expanded, only clicking the header collapses it.
+        if (!widget.classList.contains('expanded')) {
+            widget.classList.add('expanded');
+        } else if (e.target.closest('#link-locator-header')) {
+            widget.classList.remove('expanded');
+        }
     });
 
     const list = document.createElement('ul');
